@@ -1,7 +1,7 @@
 import React from 'react';
 import TableBasic from './TableBasic/index';
 import {connect} from 'dva'
-import {Button} from "antd";
+import {Button,Modal} from "antd";
 
 class List extends React.Component {
   constructor(props){
@@ -9,6 +9,7 @@ class List extends React.Component {
     this.state = {
       pageNum:1,
       pageSize:10,
+      visible: false,
     }
   }
   componentDidMount() {
@@ -23,15 +24,27 @@ class List extends React.Component {
   handleAdd(){
     this.props.history.push('/article/add')
   }
+  handleOk = e => {
+    this.setState({
+      visible: false
+    });
+  };
+
+  handleCancel = e => {
+    this.setState({
+      visible: false
+    });
+  };
+
   handleDelete(id){
-    this.props.dispatch({
-      type:'article/deleteList',
-      payload:{
-        ids:id,
-        pageNum:this.state.pageNum,
-        pageSize:this.state.pageSize,
-      }
-    })
+      this.props.dispatch({
+        type:'article/deleteList',
+        payload:{
+          ids:id,
+          pageNum:this.state.pageNum,
+          pageSize:this.state.pageSize,
+        }
+      })
   }
   handleChange(pagination, filters, sorter){
     if(sorter.column){

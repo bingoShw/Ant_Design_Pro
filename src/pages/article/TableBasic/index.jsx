@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./index.less";
-import { Table, Divider, Tag } from "antd";
+import {Table, Divider, Tag,Modal} from "antd";
 
 export default (props) => {
   const columns = [
@@ -53,13 +53,32 @@ export default (props) => {
     {
       title: "操作区",
       key: "action",
-      render: (text, record) => (
-        <span>
-        <a>修改</a>
-        <Divider type="vertical" />
-        <a onClick={() => props.onhandleDelete(record.articleId)}>删除</a>
-      </span>
-      )
+      render: (text, record) => {
+        const { confirm } = Modal;
+        function showDeleteConfirm() {
+          confirm({
+            title: '确认删除',
+            content: '数据不可恢复',
+            okText: '确认',
+            okType: 'danger',
+            cancelText: '关闭',
+            onOk() {
+              console.log('OK');
+              props.onhandleDelete(record.articleId)
+            },
+            onCancel() {
+              console.log('Cancel');
+            },
+          });
+        }
+        return(
+            <span>
+              <a>修改</a>
+              <Divider type="vertical"/>
+              <a onClick={showDeleteConfirm}>删除</a>
+            </span>
+          )
+      }
     }
   ];
 
